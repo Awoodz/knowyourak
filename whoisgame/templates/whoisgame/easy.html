@@ -1,0 +1,33 @@
+{% load static %}
+<p>Mode facile !</p>
+<p><img src="{{photo.photo.url}}" style="height: 200px;"/></p>
+
+<div>Réponses possibles</div>
+{% for employees in employee_block %}
+{% with iteration=forloop.counter0 %}
+<p id="">--------</p>
+{% for employee in employees %}
+<button onclick="checkAnswer('{{iteration}}', '{{employee.first_name}}')" class="btn-{{iteration}}" id="btn-{{iteration}}-{{employee.first_name}}">
+    {{employee.first_name}}
+</button>
+{% endfor %}
+{% endwith %}
+{% endfor %}
+
+<script>
+    var answer_list = {{answer_list|safe}};
+
+    function checkAnswer(iteration, first_name) {
+        buttons = document.getElementsByClassName("btn-" + iteration);
+        clickedButton = document.getElementById("btn-"+ iteration + "-" + first_name)
+        for (let button of buttons) {
+            button.disabled = true;
+            if (answer_list[iteration].first_name === first_name) {
+                clickedButton.style.backgroundColor = "greenyellow";
+            } else {
+                clickedButton.style.backgroundColor = "red";
+            }
+        };
+    };
+
+</script>
